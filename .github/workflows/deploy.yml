@@ -25,16 +25,20 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
 
-      - name: Install dependencies
+      - name: Install dependencies & Injeksi react-is
         run: |
-          rm -f package-lock.json
-          npm install --legacy-peer-deps
+          rm -f package-lock.json yarn.lock
+          npm pkg set dependencies.react-is="^19.0.0"
+          yarn install --ignore-engines --network-timeout 100000
 
       - name: Build aplikasi Vite & Tailwind
+        env:
+          CI: false
+          NODE_OPTIONS: "--max-old-space-size=4096"
         run: |
-          npm run build
+          npx vite build
           cp dist/index.html dist/404.html
 
       - name: Setup GitHub Pages
