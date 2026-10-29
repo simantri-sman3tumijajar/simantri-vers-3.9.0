@@ -1,0 +1,124 @@
+{
+  "entities": {
+    "SystemState": {
+      "title": "SystemState",
+      "description": "Global synchronized state record for multi-device cross-network live sync.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "version": { "type": "number" },
+        "lastUpdated": { "type": "string" },
+        "schoolInfo": { "type": "object" },
+        "teachers": { "type": "array" },
+        "classes": { "type": "array" },
+        "subjects": { "type": "array" },
+        "students": { "type": "array" },
+        "assessments": { "type": "array" }
+      },
+      "required": ["id", "version", "lastUpdated"]
+    },
+    "Draft": {
+      "title": "Draft",
+      "description": "Autosave draft item for cross-device realtime grading and exam editing.",
+      "type": "object",
+      "properties": {
+        "key": { "type": "string" },
+        "moduleName": { "type": "string" },
+        "userId": { "type": "string" },
+        "timestamp": { "type": "number" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["key", "moduleName", "timestamp"]
+    },
+    "ExamActivityLog": {
+      "title": "ExamActivityLog",
+      "description": "Single-document live state for real-time mobile anti-cheat and proctor monitoring per student exam session.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "className": { "type": "string" },
+        "examId": { "type": "string" },
+        "examType": { "type": "string" },
+        "deviceInfo": { "type": "string" },
+        "currentStatus": { "type": "string" },
+        "antiCheatColor": { "type": "string" },
+        "violationCount": { "type": "number" },
+        "lockStage": { "type": "number" },
+        "hasUsedPinUnlock": { "type": "boolean" },
+        "isBlocked": { "type": "boolean" },
+        "examStatus": { "type": "string" },
+        "lastViolationReason": { "type": "string" },
+        "lastViolationTime": { "type": "string" },
+        "lastStatusChange": { "type": "string" },
+        "recentLogs": { "type": "array" },
+        "isLocked": { "type": "boolean" },
+        "isSplitScreen": { "type": "boolean" },
+        "forceSubmitted": { "type": "boolean" },
+        "warningMessage": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "studentId", "examId", "currentStatus", "violationCount"]
+    },
+    "ExamSecurityConfig": {
+      "title": "ExamSecurityConfig",
+      "description": "Central 6-digit proctor security PIN and exam security settings for real-time sync.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "activePin": { "type": "string" },
+        "generatedAt": { "type": "string" },
+        "updatedBy": { "type": "string" },
+        "updatedByRole": { "type": "string" },
+        "isActive": { "type": "boolean" },
+        "notes": { "type": "string" }
+      },
+      "required": ["id", "activePin", "isActive"]
+    },
+    "ExamBroadcast": {
+      "title": "ExamBroadcast",
+      "description": "Real-time emergency broadcast announcements and incident notices for active examination sessions.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "priority": { "type": "string" },
+        "targetType": { "type": "string" },
+        "targetExamType": { "type": "string" },
+        "targetSession": { "type": "string" },
+        "targetRoom": { "type": "string" },
+        "isActive": { "type": "boolean" },
+        "createdBy": { "type": "string" },
+        "createdByName": { "type": "string" },
+        "createdByRole": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "timeExtensionMinutes": { "type": "number" }
+      },
+      "required": ["id", "title", "message", "priority", "isActive", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/system_state/{stateId}": {
+      "schema": { "$ref": "#/entities/SystemState" },
+      "description": "Root synchronization document for all school assessment master data."
+    },
+    "/drafts/{draftKey}": {
+      "schema": { "$ref": "#/entities/Draft" },
+      "description": "Active autosave draft document for ongoing multi-device teacher work."
+    },
+    "/exam_activity_logs/{logId}": {
+      "schema": { "$ref": "#/entities/ExamActivityLog" },
+      "description": "Live student examination activity log and real-time anti-cheat status."
+    },
+    "/exam_settings/{settingId}": {
+      "schema": { "$ref": "#/entities/ExamSecurityConfig" },
+      "description": "Exam security configuration including active 6-digit proctor PIN."
+    },
+    "/exam_broadcasts/{broadcastId}": {
+      "schema": { "$ref": "#/entities/ExamBroadcast" },
+      "description": "Active real-time broadcast and announcement documents for CBT students."
+    }
+  }
+}

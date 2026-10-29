@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <script>
+      (function() {
+        // Intercept and prevent benign unhandled rejections from Vite HMR WebSockets in iFrame proxy
+        // and Firestore idle stream timeout disconnects
+        function isIgnorableError(msg) {
+          if (!msg) return false;
+          var s = String(msg).toLowerCase();
+          return (
+            s.indexOf('websocket closed without opened') !== -1 ||
+            s.indexOf('disconnecting idle stream') !== -1 ||
+            s.indexOf('timed out waiting for new targets') !== -1 ||
+            s.indexOf('grpcconnection rpc') !== -1 ||
+            s.indexOf('grpcconnection') !== -1 ||
+            s.indexOf('code: 1 message: 1 cancelled') !== -1 ||
+            s.indexOf('quota limit exceeded') !== -1 ||
+            s.indexOf('resource-exhausted') !== -1 ||
+            s.indexOf('@firebase/firestore') !== -1 ||
+            s.indexOf('missing or insufficient permissions') !== -1 ||
+            s.indexOf('permission-denied') !== -1
+          );
+        }
+
+        var origError = console.error;
+        console.error = function() {
+          var str = '';
+          for (var i = 0; i < arguments.length; i++) {
+            var arg = arguments[i];
+            str += (typeof arg === 'string' ? arg : (arg && arg.message ? arg.message : JSON.stringify(arg) || '')) + ' ';
+          }
+          if (isIgnorableError(str)) {
+            return;
+          }
+          if (origError) {
+            origError.apply(console, arguments);
+          }
+        };
+
+        window.addEventListener('unhandledrejection', function(event) {
+          var reason = event && event.reason;
+          var msg = reason ? (reason.message || String(reason)) : '';
+          if (isIgnorableError(msg)) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+        }, true);
+
+        window.addEventListener('error', function(event) {
+          var msg = event ? (event.message || String(event.error || '')) : '';
+          if (isIgnorableError(msg)) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+        }, true);
+      })();
+    </script>
+    <title>SiMantri - Sistem Informasi & Manajemen Akademik SMAN 3 Tumijajar</title>
+    <meta name="description" content="SiMantri (Sistem Informasi & Manajemen Akademik SMAN 3 Tumijajar) - Platform Ekosistem Terpadu Layanan Akademik, Asesmen, Bank Soal, Koreksi AI, Rapor, Supervisi & Kalender Pendidikan." />
+    <meta property="og:title" content="SiMantri - Sistem Informasi & Manajemen Akademik SMAN 3 Tumijajar" />
+    <meta property="og:description" content="SiMantri (Sistem Informasi & Manajemen Akademik SMAN 3 Tumijajar) - Platform Ekosistem Terpadu Layanan Akademik, Asesmen, Bank Soal, Koreksi AI, Rapor, Supervisi & Kalender Pendidikan." />
+    <meta property="og:image" content="https://iili.io/n1vlf2t.png" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1e293b" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="SiMantri" />
+    <link rel="icon" type="image/png" href="https://iili.io/n1vlf2t.png" />
+    <link rel="apple-touch-icon" href="https://iili.io/n1vlf2t.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased selection:bg-indigo-500 selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

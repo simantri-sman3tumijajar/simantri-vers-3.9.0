@@ -1,0 +1,10 @@
+# SiMantri Single Page Application (SPA) Apache Rewrite Rules
+# Redirects all sub-path deep links (/admin/*, /operator/*, /gtk/*, /siswa/*) to index.html
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>

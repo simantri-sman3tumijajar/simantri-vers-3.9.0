@@ -1,0 +1,8 @@
+{
+  "name": "Remix SiMantri App v3.9.6d NEW",
+  "description": "AI-powered web platform for automated essay grading, exam management, and comprehensive academic analytics for SMAN 3 Tumijajar teachers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
